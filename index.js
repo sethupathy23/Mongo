@@ -4,6 +4,8 @@ dotenv.config();
 import express from "express"; // "type": "module"
 import { MongoClient } from "mongodb";
 import moviesRouter from "./router/movies.router.js";
+import cors from "cors";
+
 const app = express();
 const PORT = process.env.PORT;
 //.env = environment variables
@@ -16,6 +18,7 @@ export const client = new MongoClient(MONGO_URL); // dial
 // Top level await
 await client.connect(); // call
 console.log("Mongo is connected !!!  ");
+app.use(cors());
 
 //Intercepts = apply middleware -> converting body to json
 app.use(express.json());
