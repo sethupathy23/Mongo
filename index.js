@@ -5,6 +5,8 @@ import express from "express"; // "type": "module"
 import { MongoClient } from "mongodb";
 import moviesRouter from "./router/movies.router.js";
 import cors from "cors";
+import bcrypt from "bcrypt";
+import usersRouter from "./router/users.router.js";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -28,4 +30,14 @@ app.get("/", function (request, response) {
 });
 
 app.use("/movies", moviesRouter);
+app.use("/users", usersRouter);
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
+
+async function generateHashedPassword(password) {
+  const NO_OF_ROUNDS = 10;
+  const salt = await bcrypt.genSalt(NO_OF_ROUNDS);
+  const HashedPassword = await bcrypt.hash(password, salt);
+  console.log(salt);
+  console.log(HashedPassword);
+}
+generateHashedPassword("password@123");
